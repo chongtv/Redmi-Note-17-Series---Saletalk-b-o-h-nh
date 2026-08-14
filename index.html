@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title>Redmi Note 17 Series — Học bài Sale</title>
+<style>
+  :root{
+    --ink:#1b1b1f;
+    --paper:#f6f5f2;
+    --card:#ffffff;
+    --line:#e4e1d9;
+    --muted:#6b6a66;
+    --pro:#ea6a2e;      /* pro series orange */
+    --pro-soft:#fdece1;
+    --std:#6c4fd6;      /* standard series purple */
+    --std-soft:#efeafb;
+    --good:#1f8a4c;
+    --good-soft:#e7f6ec;
+    --bad:#c23a3a;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    padding-bottom:60px;
+  }
+  header.top{
+    position:sticky; top:0; z-index:50;
+    background:var(--ink); color:#fff;
+    padding:14px 16px 0 16px;
+  }
+  .brand{
+    display:flex; align-items:baseline; gap:8px; flex-wrap:wrap;
+    padding-bottom:10px;
+  }
+  .brand .name{ font-size:20px; font-weight:800; letter-spacing:-0.02em; }
+  .brand .tag{ font-size:11px; color:#b9b8c4; text-transform:uppercase; letter-spacing:.12em; }
+  nav.tabs{
+    display:flex; gap:2px; overflow-x:auto; scrollbar-width:none;
+  }
+  nav.tabs::-webkit-scrollbar{display:none;}
+  nav.tabs button{
+    flex:0 0 auto;
+    background:transparent; border:none;
+    color:#c7c6d1; font-size:13.5px; font-weight:600;
+    padding:10px 14px 12px 14px;
+    cursor:pointer; white-space:nowrap;
+    border-bottom:3px solid transparent;
+  }
+  nav.tabs button.active{ color:#fff; border-bottom-color:var(--pro); }
+
+  main{ max-width:900px; margin:0 auto; padding:16px; }
+  section.panel{ display:none; }
+  section.panel.active{ display:block; animation:fade .18s ease; }
+  @keyframes fade{ from{opacity:0; transform:translateY(4px);} to{opacity:1; transform:none;} }
+
+  h2.section-title{
+    font-size:12px; text-transform:uppercase; letter-spacing:.1em;
+    color:var(--muted); margin:24px 0 10px 0; font-weight:700;
+  }
+  h2.section-title:first-child{ margin-top:4px; }
+
+  .card{
+    background:var(--card); border:1px solid var(--line); border-radius:14px;
+    padding:16px; margin-bottom:12px;
+  }
+
+  /* --- Series switch pills --- */
+  .series-switch{
+    display:flex; gap:8px; margin-bottom:14px;
+  }
+  .series-switch button{
+    flex:1; border-radius:10px; border:1.5px solid var(--line);
+    background:#fff; padding:10px; font-weight:700; font-size:13.5px;
+    cursor:pointer; color:var(--muted);
+  }
+  .series-switch button.pro.active{ border-color:var(--pro); background:var(--pro-soft); color:var(--pro); }
+  .series-switch button.std.active{ border-color:var(--std); background:var(--std-soft); color:var(--std); }
+  .series-block{ display:none; }
+  .series-block.active{ display:block; }
+
+  /* --- spec grid --- */
+  .spec-row{
+    display:grid; grid-template-columns:96px 1fr; gap:10px;
+    padding:10px 0; border-bottom:1px solid var(--line);
+    font-size:13.5px; line-height:1.5;
+  }
+  .spec-row:last-child{ border-bottom:none; }
+  .spec-row .k{ font-weight:700; color:var(--muted); font-size:12px; padding-top:2px;}
+  .spec-row .v b{ color:var(--ink); }
+
+  .pillars{ display:grid; grid-template-columns:1fr; gap:10px; margin-bottom:12px;}
+  @media(min-width:600px){ .pillars{grid-template-columns:1fr 1fr 1fr;} }
+  .pillar{
+    border-radius:12px; padding:12px; font-size:13px; line-height:1.45;
+    border:1px solid var(--line);
+  }
+  .pillar .num{ font-size:11px; font-weight:800; opacity:.6;}
+  .pillar .t{ font-weight:800; font-size:14px; margin:2px 0 4px 0;}
+
+  .feature-list{ display:flex; flex-direction:column; gap:8px; }
+  .feature{
+    display:grid; grid-template-columns:1fr; gap:2px;
+    border:1px solid var(--line); border-radius:10px; padding:10px 12px;
+  }
+  .feature .f-name{ font-weight:700; font-size:13.5px; }
+  .feature .f-val{ font-weight:800; font-size:14px; }
+  .feature .f-desc{ font-size:12.5px; color:var(--muted); margin-top:2px;}
+
+  /* FAQ accordion */
+  details.faq{
+    border:1px solid var(--line); border-radius:10px; margin-bottom:8px;
+    overflow:hidden; background:#fff;
+  }
+  details.faq summary{
+    padding:12px 14px; font-weight:700; font-size:13.5px; cursor:pointer;
+    list-style:none; display:flex; justify-content:space-between; gap:8px; align-items:center;
+  }
+  details.faq summary::-webkit-details-marker{ display:none; }
+  details.faq summary:after{ content:"+"; font-size:18px; color:var(--muted); font-weight:400; flex:0 0 auto;}
+  details.faq[open] summary:after{ content:"–"; }
+  details.faq .faq-body{ padding:0 14px 14px 14px; font-size:13px; color:#3a3a3f; line-height:1.55; }
+
+  /* warranty table */
+  table.warranty{ width:100%; border-collapse:collapse; font-size:13px; }
+  table.warranty td{ padding:8px 4px; border-bottom:1px solid var(--line); }
+  table.warranty td.yrs{ font-weight:800; width:70px; }
+
+  /* FABE table */
+  .fabe{ display:flex; flex-direction:column; gap:12px; }
+  .fabe-card{ border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+  .fabe-head{ padding:10px 14px; font-weight:800; font-size:13.5px; color:#fff; }
+  .fabe-body{ padding:12px 14px; display:flex; flex-direction:column; gap:8px; background:#fff;}
+  .fabe-row{ font-size:12.5px; line-height:1.5; }
+  .fabe-row .lbl{ font-weight:700; font-size:11px; text-transform:uppercase; letter-spacing:.05em; color:var(--muted); display:block; margin-bottom:2px;}
+
+  /* upsell steps */
+  .steps{ counter-reset:step; }
+  .step{
+    display:grid; grid-template-columns:32px 1fr; gap:10px;
+    padding:12px 0; border-bottom:1px solid var(--line);
+  }
+  .step:last-child{ border-bottom:none; }
+  .step .circ{
+    width:28px; height:28px; border-radius:50%; background:var(--ink); color:#fff;
+    display:flex; align-items:center; justify-content:center; font-weight:800; font-size:12.5px;
+  }
+  .step .t{ font-weight:800; font-size:14px; margin-bottom:3px; }
+  .step .d{ font-size:12.5px; color:var(--muted); line-height:1.5; }
+
+  table.objection{ width:100%; border-collapse:collapse; font-size:12px; margin-top:6px;}
+  table.objection th{ text-align:left; font-size:10.5px; text-transform:uppercase; color:var(--muted); padding:6px 4px; border-bottom:1.5px solid var(--ink);}
+  table.objection td{ padding:8px 4px; border-bottom:1px solid var(--line); vertical-align:top; line-height:1.4;}
+
+  .quote{
+    background:var(--ink); color:#fff; border-radius:12px; padding:16px;
+    font-size:13.5px; line-height:1.6; font-style:italic; position:relative;
+  }
+  .quote:before{ content:"“"; font-size:34px; font-style:normal; color:var(--pro); position:absolute; top:2px; left:12px; line-height:1;}
+  .quote p{ margin:0 0 0 20px; }
+
+  /* comparison cards */
+  .cmp-picker{ display:flex; gap:8px; overflow-x:auto; padding-bottom:8px; margin-bottom:8px; scrollbar-width:none;}
+  .cmp-picker::-webkit-scrollbar{display:none;}
+  .cmp-picker button{
+    flex:0 0 auto; border:1px solid var(--line); background:#fff; border-radius:999px;
+    padding:8px 13px; font-size:12px; font-weight:700; color:var(--muted); cursor:pointer;
+  }
+  .cmp-picker button.active{ background:var(--ink); color:#fff; border-color:var(--ink);}
+  .cmp-block{ display:none; }
+  .cmp-block.active{ display:block; }
+
+  .cmp-vs{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px;}
+  .cmp-vs .col{ border-radius:12px; padding:12px; border:1.5px solid var(--line); }
+  .cmp-vs .col.us{ border-color:var(--pro); background:var(--pro-soft); }
+  .cmp-vs .col h3{ margin:0 0 6px 0; font-size:13px; }
+  .cmp-vs .col .price-tag{ font-size:10.5px; color:var(--muted); text-transform:uppercase; letter-spacing:.05em; font-weight:700;}
+
+  table.cmp-table{ width:100%; border-collapse:collapse; font-size:12.5px; margin-bottom:12px;}
+  table.cmp-table th{ text-align:left; padding:6px 4px; font-size:10.5px; text-transform:uppercase; color:var(--muted); border-bottom:1.5px solid var(--ink);}
+  table.cmp-table td{ padding:8px 4px; border-bottom:1px solid var(--line); vertical-align:top; line-height:1.4;}
+  table.cmp-table td.attr{ font-weight:700; color:var(--muted); width:26%; font-size:11.5px;}
+  .win{ color:var(--good); font-weight:800; }
+
+  .verdict{
+    background:var(--good-soft); border:1px solid #b9dfc4; border-radius:10px;
+    padding:10px 12px; font-size:12.5px; color:#155a30; font-weight:600; line-height:1.5;
+  }
+
+  .pill-badge{ display:inline-block; font-size:10px; font-weight:800; padding:2px 8px; border-radius:999px; margin-left:6px; }
+  .pill-badge.pro{ background:var(--pro-soft); color:var(--pro); }
+  .pill-badge.std{ background:var(--std-soft); color:var(--std); }
+
+  .toc-note{ font-size:12px; color:var(--muted); margin:0 0 14px 0; line-height:1.5; }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="brand">
+    <span class="name">Redmi Note 17 Series</span>
+    <span class="tag">Tài liệu học bài Sale</span>
+  </div>
+  <nav class="tabs">
+    <button class="tab-btn active" data-tab="tongquan">1 · Kiến thức tổng quát</button>
+    <button class="tab-btn" data-tab="saletalk">2 · Sale Talk</button>
+    <button class="tab-btn" data-tab="sosanh">3 · So sánh đối thủ</button>
+  </nav>
+</header>
+
+<main>
+
+  <!-- ============ TAB 1: TỔNG QUÁT ============ -->
+  <section class="panel active" id="tongquan">
+    <p class="toc-note">Thông số & điểm bán của 2 dòng máy. Bấm nút để chuyển dòng.</p>
+
+    <div class="series-switch">
+      <button class="pro active" data-series="pro" onclick="setSeries('pro')">Note 17 Pro Series</button>
+      <button class="std" data-series="std" onclick="setSeries('std')">Note 17 Series (Tiêu chuẩn)</button>
+    </div>
+
+    <!-- PRO SERIES BLOCK -->
+    <div class="series-block pro-block active">
+      <div class="pillars">
+        <div class="pillar" style="background:var(--pro-soft); border-color:#f6c9a8;">
+          <div class="num" style="color:var(--pro);">01</div>
+          <div class="t" style="color:var(--pro);">Năng lượng MAX</div>
+          Pin 10.000mAh cực bền, dùng cả ngày dài không lo hết pin.
+        </div>
+        <div class="pillar" style="background:var(--pro-soft); border-color:#f6c9a8;">
+          <div class="num" style="color:var(--pro);">02</div>
+          <div class="t" style="color:var(--pro);">Bền bỉ MAX</div>
+          Kháng bụi & kháng nước cùng chất liệu kính cường lực hàng đầu.
+        </div>
+        <div class="pillar" style="background:var(--pro-soft); border-color:#f6c9a8;">
+          <div class="num" style="color:var(--pro);">03</div>
+          <div class="t" style="color:var(--pro);">Bảo hành MAX</div>
+          An tâm sử dụng với hậu mãi dài lâu, không lo trong quá trình dùng.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="spec-row"><div class="k">Vi xử lý</div><div class="v"><b>Snapdragon 6 Gen 5</b> — Pro Max 5G<br><b>Snapdragon 6s Gen 4</b> — Pro 5G</div></div>
+        <div class="spec-row"><div class="k">Màn hình</div><div class="v">6,83" · 1.5K POLED · 120Hz · <b>3500 nits</b><br>Corning Gorilla Glass Victus 2 · màn phẳng</div></div>
+        <div class="spec-row"><div class="k">Camera</div><div class="v">Chính <b>50MP OIS</b> + 8MP siêu rộng<br>Camera trước: 32MP (Pro Max) / 16MP (Pro)</div></div>
+        <div class="spec-row"><div class="k">Pin & Sạc</div><div class="v">Pin <b>10.000mAh</b> (Pro Max) / <b>8.340mAh</b> (Pro)<br>Sạc <b>100W</b> / 67W · sạc ngược 27W / 22,5W</div></div>
+        <div class="spec-row"><div class="k">Khác</div><div class="v">Xiaomi HyperOS 3.0 · Hyper AI · NFC<br><b>IP66 · IP68 · IP69 · IP69K</b> · loa to hơn 400%/300%<br>Google Gemini · Circle to Search</div></div>
+        <div class="spec-row"><div class="k">Bộ nhớ</div><div class="v"><b>Pro Max 5G:</b> 8+256 / 8+512 / 12+256GB<br><b>Pro 5G:</b> 6+128 / 6+256 / 8+256GB</div></div>
+      </div>
+
+      <h2 class="section-title">Điểm bán nổi bật (chi tiết)</h2>
+      <div class="feature-list">
+        <div class="feature"><div class="f-name">Pin Silicon–Carbon</div><div class="f-val">10.000mAh / 8.340mAh</div><div class="f-desc">Đạt trọn bộ chứng nhận chất lượng TÜV SÜD.</div></div>
+        <div class="feature"><div class="f-name">Sạc nhanh hàng đầu</div><div class="f-val">100W / 67W</div><div class="f-desc">Cao nhất phân khúc cùng công nghệ sạc tiên tiến.</div></div>
+        <div class="feature"><div class="f-name">Kính cường lực</div><div class="f-val">Gorilla Glass Victus 2</div><div class="f-desc">Khả năng kháng vỡ khi rơi từ độ cao đến 3m.</div></div>
+        <div class="feature"><div class="f-name">Kháng bụi & nước</div><div class="f-val">IP66 · IP68 · IP69 · IP69K</div><div class="f-desc">Khả năng kháng nước lên đến 3 ngày.</div></div>
+        <div class="feature"><div class="f-name">Bảo vệ toàn diện</div><div class="f-val">5 · 3 · 2 · 2 · 2</div><div class="f-desc">Pin · Màn hình · Tiêu chuẩn · Chất lỏng · Kính camera/nắp lưng.</div></div>
+      </div>
+
+      <h2 class="section-title">7 câu FAQ thường gặp — Pro Series</h2>
+      <details class="faq"><summary>1. Bộ nhớ thấp hơn phiên bản trước?</summary><div class="faq-body">Đúng, do giá bộ nhớ & chip toàn cầu tăng nên hãng điều chỉnh để giữ giá bán ổn định. Đổi lại, máy được nâng cấp mạnh về pin, màn hình, độ bền và bảo hành — những yếu tố ảnh hưởng trực tiếp đến trải nghiệm dùng lâu dài.</div></details>
+      <details class="faq"><summary>2. Camera thấp hơn so với mẫu cũ?</summary><div class="faq-body">Nếu chỉ nhìn số MP thì có vẻ vậy, nhưng camera chính 50MP OIS vẫn đáp ứng tốt nhu cầu chụp/quay hằng ngày. Đổi lại máy được nâng cấp rất mạnh ở pin, màn hình 1.5K và độ bền, phù hợp hơn cho nhu cầu sử dụng lâu dài.</div></details>
+      <details class="faq"><summary>3. Giá sản phẩm tăng cao so với phiên bản trước?</summary><div class="faq-body">Giá năm nay có thể nhỉnh hơn một chút nhưng phần nâng cấp rất rõ ràng: pin lên đến 10.000mAh, sạc nhanh 100W, màn hình 1.5K 3500nits, Gorilla Glass Victus 2 và chuẩn kháng nước IP66/68/69/69K. Xét tổng thể trải nghiệm và thời gian sử dụng lâu dài thì giá trị mang lại cao hơn đáng kể.</div></details>
+      <details class="faq"><summary>4. Dung lượng pin lớn 10.000mAh liệu có an toàn không?</summary><div class="faq-body">Có thể yên tâm vì pin đã trải qua nhiều bài kiểm định độ bền và an toàn của TÜV SÜD. Sau 1.600 chu kỳ sạc, dung lượng vẫn duy trì trên 80%, đồng thời pin được kiểm tra ở nhiệt độ từ -20°C đến 75°C. Các bài kiểm tra cũng yêu cầu pin không cháy nổ, không rò rỉ chất điện phân.</div></details>
+      <details class="faq"><summary>5. Sạc nhanh có hại pin không?</summary><div class="faq-body">Công suất sạc cao không đồng nghĩa pin sẽ nhanh chai. Redmi Note 17 Pro Series có hệ thống quản lý pin thông minh và cơ chế kiểm soát quá trình sạc — pin vẫn được thiết kế để duy trì trên 80% dung lượng sau 1.600 chu kỳ sạc.</div></details>
+      <details class="faq"><summary>6. Chip Snapdragon thường sẽ nóng máy?</summary><div class="faq-body">Nhiệt độ máy thực tế còn phụ thuộc vào tác vụ và thời gian sử dụng. Redmi Note 17 Pro Series vẫn đáp ứng tốt các nhu cầu từ mạng xã hội, xem phim đến chơi game hằng ngày và giữ nhiệt độ ổn định.</div></details>
+      <details class="faq"><summary>7. Chế độ bảo hành có thật sự tốt không?</summary><div class="faq-body">Điểm mạnh của Pro Series là gói bảo vệ <b>5-3-2-2-2</b> rất toàn diện: 5 năm cho pin, 3 năm bảo vệ hư hỏng màn hình, 2 năm hư hỏng do chất lỏng, 2 năm nắp lưng/kính camera và 2 năm bảo hành tiêu chuẩn.</div></details>
+
+      <h2 class="section-title">Bảo hành hàng đầu — Pro</h2>
+      <div class="card">
+        <table class="warranty">
+          <tr><td class="yrs">05 năm</td><td>Bảo hành pin (1 lần)</td></tr>
+          <tr><td class="yrs">03 năm</td><td>Bảo hành hư hỏng màn hình (1 lần)</td></tr>
+          <tr><td class="yrs">02 năm</td><td>Bảo hành hư hỏng do chất lỏng</td></tr>
+          <tr><td class="yrs">02 năm</td><td>Bảo hành nắp lưng/kính camera (1 lần)</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- STANDARD SERIES BLOCK -->
+    <div class="series-block std-block">
+      <div class="pillars">
+        <div class="pillar" style="background:var(--std-soft); border-color:#d9cdf5;">
+          <div class="num" style="color:var(--std);">01</div>
+          <div class="t" style="color:var(--std);">Năng lượng MAX</div>
+          Pin 7.700mAh bền bỉ, dùng cả ngày dài không lo hết pin.
+        </div>
+        <div class="pillar" style="background:var(--std-soft); border-color:#d9cdf5;">
+          <div class="num" style="color:var(--std);">02</div>
+          <div class="t" style="color:var(--std);">Trải nghiệm MAX</div>
+          Màn hình lớn, mượt mà cùng độ sáng cao mang lại trải nghiệm tối đa.
+        </div>
+        <div class="pillar" style="background:var(--std-soft); border-color:#d9cdf5;">
+          <div class="num" style="color:var(--std);">03</div>
+          <div class="t" style="color:var(--std);">Bảo hành MAX</div>
+          An tâm sử dụng với hậu mãi dài lâu, không lo trong quá trình dùng.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="spec-row"><div class="k">Vi xử lý</div><div class="v"><b>Snapdragon 4 Gen 4</b> — bản 5G<br><b>Snapdragon 6s 4G Gen 2</b> — bản 4G</div></div>
+        <div class="spec-row"><div class="k">Màn hình</div><div class="v">6,99" · FHD+ · AMOLED · 120Hz · <b>1800 nits</b><br>Corning Gorilla Glass 7i · màn phẳng</div></div>
+        <div class="spec-row"><div class="k">Camera</div><div class="v">Chính <b>50MP</b> + ống kính phụ<br>Camera trước: 16MP</div></div>
+        <div class="spec-row"><div class="k">Pin & Sạc</div><div class="v">Pin <b>7.700mAh</b> · Sạc nhanh <b>45W</b><br>Sạc ngược có dây 22,5W</div></div>
+        <div class="spec-row"><div class="k">Khác</div><div class="v">Xiaomi HyperOS 3.0 · NFC · <b>IP65</b><br>Loa to hơn 200% · Google Gemini · Circle to Search</div></div>
+        <div class="spec-row"><div class="k">Bộ nhớ</div><div class="v"><b>Note 17 5G:</b> 6+128 / 6+256 / 8+256GB<br><b>Note 17 4G:</b> 4+128 / 6+128 / 6+256GB</div></div>
+      </div>
+
+      <h2 class="section-title">Điểm bán nổi bật (chi tiết)</h2>
+      <div class="feature-list">
+        <div class="feature"><div class="f-name">Pin Silicon–Carbon</div><div class="f-val">7.700mAh</div><div class="f-desc">Đạt trọn bộ chứng nhận chất lượng TÜV SÜD.</div></div>
+        <div class="feature"><div class="f-name">Sạc nhanh Turbo</div><div class="f-val">45W</div><div class="f-desc">~40 phút đầy 50% · ~89 phút đầy 100%.</div></div>
+        <div class="feature"><div class="f-name">Màn hình toàn diện</div><div class="f-val">6,99" · AMOLED · 120Hz</div><div class="f-desc">Giải trí đỉnh cao với màn lớn, mượt mà & sáng 1800nits.</div></div>
+        <div class="feature"><div class="f-name">Hiệu năng Snapdragon</div><div class="f-val">4 Gen 4 & 6s 4G Gen 2</div><div class="f-desc">Khả năng kháng nước lên đến 3 ngày.</div></div>
+        <div class="feature"><div class="f-name">Bảo vệ toàn diện</div><div class="f-val">4 · 2 · 2 · 2</div><div class="f-desc">Pin · Màn hình · Tiêu chuẩn · Nắp lưng/kính camera.</div></div>
+      </div>
+
+      <h2 class="section-title">7 câu FAQ thường gặp — Note 17 Series</h2>
+      <details class="faq"><summary>1. Bộ nhớ thấp hơn phiên bản trước?</summary><div class="faq-body">Đúng, do giá bộ nhớ & chip toàn cầu tăng nên cấu hình bộ nhớ hiện tại vẫn đáp ứng tốt nhu cầu hằng ngày. Đổi lại, Redmi Note 17 Series được nâng cấp rất mạnh ở pin dung lượng lớn, màn hình 6.99" 120Hz AMOLED, phù hợp hơn cho nhu cầu sử dụng lâu dài.</div></details>
+      <details class="faq"><summary>2. Camera thấp hơn so với mẫu cũ?</summary><div class="faq-body">Camera chính 50MP vẫn đáp ứng tốt nhu cầu chụp/quay hằng ngày. Đổi lại, máy nâng cấp mạnh về pin 7.700mAh, màn hình lớn 6.99" 120Hz AMOLED và bảo hành 4-2-2-2.</div></details>
+      <details class="faq"><summary>3. Giá sản phẩm tăng cao so với phiên bản trước?</summary><div class="faq-body">Giá có thể nhỉnh hơn một chút nhưng phần nâng cấp rất rõ ràng: pin lên đến 7.700mAh, sạc nhanh 45W, màn hình 6.9" 120Hz AMOLED cùng chip Snapdragon mạnh mẽ. Xét tổng thể trải nghiệm và thời gian sử dụng lâu dài thì giá trị mang lại cao hơn đáng kể.</div></details>
+      <details class="faq"><summary>4. Viền màn hình Note 17 có vẻ dày hơn?</summary><div class="faq-body">Nếu cảm thấy phần viền năm nay rõ hơn một chút thì thực tế trải nghiệm không thay đổi nhiều — máy có màn hình AMOLED lớn tới 6.99", FHD+ và 120Hz nên không gian hiển thị vẫn rất rộng và thoải mái khi xem phim, đọc nội dung hay lướt mạng xã hội.</div></details>
+      <details class="faq"><summary>5. Màn hình 6.99" có to quá không?</summary><div class="faq-body">Màn hình 6.99" đúng là khá lớn, và đây cũng chính là lợi thế khi xem phim, TikTok, đọc tin hoặc chơi game. Nội dung hiển thị lớn hơn, dễ nhìn hơn, cộng thêm AMOLED 120Hz nên trải nghiệm rất thoải mái. Nếu cảm thấy máy hơi to thì nên cân nhắc kích thước phù hợp với tay mình.</div></details>
+      <details class="faq"><summary>6. Chip mới nhưng sao hiệu năng thấp hơn mẫu cũ?</summary><div class="faq-body">Nếu chỉ xét riêng điểm benchmark thì bản 5G thế hệ mới đúng là cao hơn, nhưng Snapdragon 4 Gen 4 vẫn đáp ứng tốt các tác vụ hằng ngày như mạng xã hội, xem phim, làm việc, giải trí. Đổi lại, máy được nâng cấp rất mạnh về pin 7.700mAh, màn hình lớn 6.99" và bảo hành 4-2-2-2 — sản phẩm mang lại trải nghiệm toàn diện lâu dài hơn.</div></details>
+      <details class="faq"><summary>7. Chế độ bảo hành có thật sự tốt không?</summary><div class="faq-body">Điểm mạnh của Note 17 Series là gói bảo vệ <b>4-2-2-2</b> rất toàn diện: 4 năm cho pin, 2 năm bảo vệ hư hỏng màn hình, 2 năm hư hỏng do chất lỏng và 2 năm nắp lưng/kính camera.</div></details>
+
+      <h2 class="section-title">Bảo hành hàng đầu — Note 17</h2>
+      <div class="card">
+        <table class="warranty">
+          <tr><td class="yrs">04 năm</td><td>Bảo hành pin (1 lần)</td></tr>
+          <tr><td class="yrs">02 năm</td><td>Bảo hành hư hỏng màn hình</td></tr>
+          <tr><td class="yrs">02 năm</td><td>Bảo hành hư hỏng do chất lỏng</td></tr>
+          <tr><td class="yrs">02 năm</td><td>Bảo hành nắp lưng/kính camera</td></tr>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TAB 2: SALE TALK ============ -->
+  <section class="panel" id="saletalk">
+    <p class="toc-note">Quy trình tư vấn, FABE và cách xử lý từ chối khi upsell.</p>
+
+    <h2 class="section-title">Quy trình tư vấn 3 bước</h2>
+    <div class="card">
+      <div class="steps">
+        <div class="step"><div class="circ">1</div><div><div class="t">Câu hook mở đầu</div><div class="d">"Em mời anh/chị trải nghiệm dòng Redmi Note 17 Series mới với pin cực lớn, siêu bền bỉ và đặc biệt là dùng lâu dài vô cùng yên tâm ạ!"</div></div></div>
+        <div class="step"><div class="circ">2</div><div><div class="t">Tìm hiểu nhu cầu</div><div class="d">Tần suất sử dụng máy của anh/chị gần đây như thế nào?<br>Anh/chị thường dùng máy với nhu cầu chính là gì? (chụp ảnh / game / giải trí / làm việc)<br>Anh/chị có ưu tiên yên tâm bền/ít rủi ro và hậu mãi tốt không?</div></div></div>
+        <div class="step"><div class="circ">3</div><div><div class="t">Phân loại nhu cầu khách</div><div class="d"><b>Pin trâu</b> → Pin lên đến 10.000mAh, sạc nhanh 100W<br><b>Bền bỉ</b> → Cường lực GG Victus 2, IP66/68/69/69K<br><b>Sử dụng lâu dài</b> → Chính sách hậu mãi dài hạn, đặc quyền hậu mãi tốt</div></div></div>
+      </div>
+    </div>
+
+    <h2 class="section-title">FABE — Redmi Note 17 <span class="pill-badge pro">Pro Series</span></h2>
+    <div class="fabe">
+      <div class="fabe-card">
+        <div class="fabe-head" style="background:var(--pro);">Năng lượng MAX</div>
+        <div class="fabe-body">
+          <div class="fabe-row"><span class="lbl">Tính năng</span>Pin silicon-carbon 10.000mAh/8.340mAh · sạc nhanh 100W/67W</div>
+          <div class="fabe-row"><span class="lbl">Ưu thế</span>Dung lượng pin hàng đầu phân khúc · sạc nhanh hàng đầu, tiết kiệm thời gian</div>
+          <div class="fabe-row"><span class="lbl">Lợi ích</span>Sử dụng thoải mái cả ngày dài · tuổi thọ pin bền bỉ đến 6 năm · sạc nhanh không chờ đợi</div>
+          <div class="fabe-row"><span class="lbl">Demo</span>Mở cài đặt Pin/Sạc cho khách xem thời lượng và các tính năng pin nâng cao.</div>
+        </div>
+      </div>
+      <div class="fabe-card">
+        <div class="fabe-head" style="background:var(--pro);">Bền bỉ MAX</div>
+        <div class="fabe-body">
+          <div class="fabe-row"><span class="lbl">Tính năng</span>Kháng rơi vỡ đến 3m · Gorilla Glass Victus 2 · kháng bụi & nước IP66/68/69/69K</div>
+          <div class="fabe-row"><span class="lbl">Ưu thế</span>Bảo vệ toàn diện trong nhiều tình huống điều kiện</div>
+          <div class="fabe-row"><span class="lbl">Lợi ích</span>Thoải mái sử dụng trong môi trường mưa/ẩm hoặc tiếp xúc với nước</div>
+          <div class="fabe-row"><span class="lbl">Demo</span>Mở video/demo test độ bền máy cho khách xem.</div>
+        </div>
+      </div>
+      <div class="fabe-card">
+        <div class="fabe-head" style="background:var(--pro);">Bảo hành MAX</div>
+        <div class="fabe-body">
+          <div class="fabe-row"><span class="lbl">Tính năng</span>Gói bảo hành MAX 5-3-2-2-2</div>
+          <div class="fabe-row"><span class="lbl">Ưu thế</span>Bảo vệ quyền lợi khách hàng tốt hơn</div>
+          <div class="fabe-row"><span class="lbl">Lợi ích</span>An tâm tuyệt đối hậu mãi dài lâu · bảo vệ quyền lợi khi sử dụng lâu dài</div>
+          <div class="fabe-row"><span class="lbl">Demo</span>Chia sẻ phúc lợi khách hàng khi mua gói bảo hành.</div>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="section-title">FABE — Redmi Note 17 <span class="pill-badge std">Series</span></h2>
+    <div class="fabe">
+      <div class="fabe-card">
+        <div class="fabe-head" style="background:var(--std);">Năng lượng MAX</div>
+        <div class="fabe-body">
+          <div class="fabe-row"><span class="lbl">Tính năng</span>Pin silicon-carbon 7.700mAh · sạc nhanh 45W</div>
+          <div class="fabe-row"><span class="lbl">Ưu thế</span>Dung lượng pin lớn nhất phân khúc · sạc nhanh hàng đầu, tiết kiệm thời gian</div>
+          <div class="fabe-row"><span class="lbl">Lợi ích</span>Mang lại thời lượng sử dụng bền bỉ · rút ngắn thời gian sạc, nhanh chóng quay lại sử dụng</div>
+          <div class="fabe-row"><span class="lbl">Demo</span>Mở cài đặt Pin/Sạc cho khách xem thời lượng và các tính năng pin nâng cao.</div>
+        </div>
+      </div>
+      <div class="fabe-card">
+        <div class="fabe-head" style="background:var(--std);">Trải nghiệm MAX</div>
+        <div class="fabe-body">
+          <div class="fabe-row"><span class="lbl">Tính năng</span>Snapdragon 4 Gen 4 / 6s 4G Gen 2 · màn AMOLED 6.99" FHD+, 1800nits, eye-care display</div>
+          <div class="fabe-row"><span class="lbl">Ưu thế</span>Hiệu năng Snapdragon ổn định trong phân khúc</div>
+          <div class="fabe-row"><span class="lbl">Lợi ích</span>Đáp ứng tốt nhu cầu sử dụng bền bỉ · mang lại không gian hiển thị rộng, màu sắc sống động</div>
+          <div class="fabe-row"><span class="lbl">Demo</span>Mở video/demo game hoặc xem video test hiệu năng & màn hình.</div>
+        </div>
+      </div>
+      <div class="fabe-card">
+        <div class="fabe-head" style="background:var(--std);">Bảo hành MAX</div>
+        <div class="fabe-body">
+          <div class="fabe-row"><span class="lbl">Tính năng</span>Gói bảo hành MAX 4-2-2-2</div>
+          <div class="fabe-row"><span class="lbl">Ưu thế</span>Bảo vệ quyền lợi khách hàng tốt hơn</div>
+          <div class="fabe-row"><span class="lbl">Lợi ích</span>An tâm tuyệt đối hậu mãi dài lâu · bảo vệ quyền lợi khi sử dụng lâu dài</div>
+          <div class="fabe-row"><span class="lbl">Demo</span>Chia sẻ phúc lợi khách hàng khi mua gói bảo hành.</div>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="section-title">Chốt sale gợi ý</h2>
+    <div class="quote">
+      <p><b>Pro Series:</b> "Note 17 Pro Series với pin lên đến 10.000mAh chính là lựa chọn giúp anh/chị an tâm sử dụng lâu dài. Đây là giai đoạn mở bán có ưu đãi tốt, nếu mình đang cân nhắc về giá thì đây là thời điểm hợp lý nhất để lấy máy ạ."</p>
+    </div>
+    <div style="height:8px"></div>
+    <div class="quote">
+      <p><b>Note 17 Series:</b> "Note 17 Series với pin không kém, lên đến 7.700mAh, cùng chính sách hậu mãi dài lâu, đây sẽ là sản phẩm giúp anh/chị an tâm sử dụng lâu dài. Nếu mình chưa có cơ hội cân nhắc thêm về giá cả, đây sẽ là thời điểm hợp lý nhất ạ."</p>
+    </div>
+
+    <h2 class="section-title">Hướng dẫn Upsell: Note 17 → Note 17 Pro</h2>
+    <div class="card">
+      <div class="steps">
+        <div class="step"><div class="circ">1</div><div><div class="t">Hiểu rõ 2 lựa chọn</div><div class="d">Nắm rõ khác biệt giữa Note 17 (Tiêu chuẩn) và Note 17 Pro để tư vấn đúng nhu cầu, giúp khách chọn phiên bản phù hợp ngay từ đầu — tránh lãng phí thời gian & tăng trải nghiệm.</div></div></div>
+        <div class="step"><div class="circ">2</div><div><div class="t">Xác định nhu cầu khách</div><div class="d">Anh/chị ưu tiên hiệu năng, pin hay trải nghiệm màn hình?<br>Anh/chị thường dùng máy để làm gì?<br>Mình có thường xuyên chơi game/quay chụp ảnh hay di chuyển nhiều không?<br>Ngân sách mong muốn của anh/chị là bao nhiêu?</div></div></div>
+        <div class="step"><div class="circ">3</div><div><div class="t">So sánh giá trị — làm nổi bật nâng cấp</div><div class="d">Hiệu năng vượt trội: Snapdragon 6 Gen 5 — mượt mà, đa nhiệm tốt hơn.<br>Pin lớn hơn tới 10.000mAh & sạc nhanh 100W — dùng lâu hơn, sạc nhanh hơn.<br>Màn hình cao cấp hơn: OLED 6.83" 1.5K, 3500nits — sắc nét, sáng rõ ngoài trời.<br>Camera nâng tầm: AI Camera + Camera chống nước — chụp đẹp mọi khoảnh khắc, quay video sắc nét.</div></div></div>
+        <div class="step"><div class="circ">5</div><div><div class="t">Chốt sale — tạo giá trị</div><div class="d">Tập trung vào lợi ích, khách hài lòng, bán hàng thành công. Nhấn mạnh: nếu khách xác định dùng máy lâu dài, phần chênh lệch giá là xứng đáng vì bản Pro nâng cấp mạnh về pin/sạc — đầu tư một lần, giá trị dài lâu.</div></div></div>
+      </div>
+    </div>
+
+    <h2 class="section-title">Xử lý từ chối upsell thông minh</h2>
+    <div class="card">
+      <table class="objection">
+        <tr><th>Từ chối gặp</th><th>Phản hồi gợi ý</th><th>Lợi ích khi nâng cấp</th></tr>
+        <tr><td>"Giá cao hơn quá"</td><td>Chênh lệch không nhiều, nhưng bù lại hiệu năng và pin dùng lâu dài hơn</td><td>Trải nghiệm mượt mà, bền bỉ, sử dụng lâu dài hơn</td></tr>
+        <tr><td>"Tôi không cần cấu hình cao"</td><td>Máy mạnh giúp mọi tác vụ mượt mà, ít giật lag khi dùng lâu dài</td><td>Tiết kiệm thời gian thao tác, chất lượng vượt trội</td></tr>
+        <tr><td>"Tôi chỉ cần chụp ảnh cơ bản"</td><td>Không chỉ pin — bản Pro còn có camera chụp ảnh sắc nét hơn</td><td>Lưu trữ khoảnh khắc rõ nét, thoải mái đăng, giảm rủi ro tiếc nuối</td></tr>
+        <tr><td>"Pin lớn tôi cũng ít dùng"</td><td>Pin lớn vẫn giúp an tâm dùng lâu dài, không phụ thuộc sạc liên tục</td><td>Thoải mái đi xa, giảm rủi ro hết pin bất ngờ</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============ TAB 3: SO SÁNH ĐỐI THỦ ============ -->
+  <section class="panel" id="sosanh">
+    <p class="toc-note">Bấm chọn cặp so sánh để xem chi tiết điểm tấn công.</p>
+
+    <div class="cmp-picker" id="cmpPicker">
+      <button class="cmp-btn active" data-cmp="c1">Pro Max vs Oppx Reno 16F</button>
+      <button class="cmp-btn" data-cmp="c2">Pro Max vs Samsxxx A57 5G</button>
+      <button class="cmp-btn" data-cmp="c3">Pro 5G vs Oppx A6 Pro 5G</button>
+      <button class="cmp-btn" data-cmp="c4">Pro 5G vs Samsxxx A37 5G</button>
+      <button class="cmp-btn" data-cmp="c5">Note17 5G vs Samsxxx A27 5G</button>
+      <button class="cmp-btn" data-cmp="c6">Note17 vs Oppx A6</button>
+      <button class="cmp-btn" data-cmp="c7">Note17 vs Samsxxx A17 4G</button>
+    </div>
+
+    <!-- C1 -->
+    <div class="cmp-block active" id="c1">
+      <div class="cmp-vs">
+        <div class="col us"><h3>Redmi Note 17 Pro Max</h3></div>
+        <div class="col"><h3>Oppx Reno 16F</h3></div>
+      </div>
+      <table class="cmp-table">
+        <tr><th>Thuộc tính</th><th>Note 17 Pro Max</th><th>Oppx Reno 16F</th></tr>
+        <tr><td class="attr">Màn hình</td><td class="win">6.83" 120Hz 1.5K FHD+ 3500nits, Glass Victus 2</td><td>6.57" 120Hz OLED M10 FHD+ 1400nits, AGC DT-Star D+</td></tr>
+        <tr><td class="attr">Camera sau</td><td>[Chính] 50MP – [Siêu rộng] 8MP</td><td>[Tele] 50MP – [Siêu rộng] 8MP</td></tr>
+        <tr><td class="attr">Camera trước</td><td>32MP</td><td class="win">50MP</td></tr>
+        <tr><td class="attr">Vi xử lý</td><td class="win">Snapdragon 6 Gen 5 (~1.15 triệu điểm Antutu)</td><td>MediaTek Dimensity 7300 (~870k điểm Antutu)</td></tr>
+        <tr><td class="attr">Bộ nhớ</td><td>8+256/512GB, 12+256GB</td><td>8+128/256GB</td></tr>
+        <tr><td class="attr">Pin – Sạc</td><td class="win">10.000mAh, HyperCharge 100W, sạc ngược có dây 27W</td><td>7000mAh, sạc nhanh 80W</td></tr>
+        <tr><td class="attr">Kháng bụi/nước</td><td>IP66, IP68, IP69, IP69K</td><td>IP66, IP68, IP69, IP69K</td></tr>
+      </table>
+      <div class="verdict">Chốt nhanh: Note 17 Pro Max mang đến cho khách những trải nghiệm toàn diện hơn — dùng tốt hơn về hiệu năng, pin khủng và màn hình sắc nét.</div>
+    </div>
+
+    <!-- C2 -->
+    <div class="cmp-block" id="c2">
+      <div class="cmp-vs">
+        <div class="col us"><h3>Redmi Note 17 Pro Max</h3></div>
+        <div class="col"><h3>Samsxxx A57 5G</h3></div>
+      </div>
+      <table class="cmp-table">
+        <tr><th>Thuộc tính</th><th>Note 17 Pro Max</th><th>Samsxxx A57 5G</th></tr>
+        <tr><td class="attr">Màn hình</td><td class="win">6.83" 120Hz 1.5K FHD+ 3500nits, Glass Victus 2</td><td>6.7" 120Hz Super AMOLED FHD+ 1900nits</td></tr>
+        <tr><td class="attr">Camera sau</td><td>[Chính] 50MP – [Siêu rộng] 8MP</td><td>[Macro] 50MP – [Siêu rộng] 12MP</td></tr>
+        <tr><td class="attr">Camera trước</td><td class="win">32MP</td><td>12MP</td></tr>
+        <tr><td class="attr">Vi xử lý</td><td class="win">Snapdragon 6 Gen 5 (~1.15 triệu điểm Antutu)</td><td>Exynos 1680 (~1.1 triệu điểm Antutu)</td></tr>
+        <tr><td class="attr">Bộ nhớ</td><td>8+256/512GB, 12+256GB</td><td>8+128/256GB</td></tr>
+        <tr><td class="attr">Pin – Sạc</td><td class="win">10.000mAh, HyperCharge 100W, sạc ngược 27W</td><td>5000mAh, sạc nhanh 45W</td></tr>
+        <tr><td class="attr">Kháng bụi/nước</td><td class="win">IP66, IP68, IP69, IP69K</td><td>IP68</td></tr>
+      </table>
+      <div class="verdict">Chốt nhanh: Note 17 Pro Max là lựa chọn toàn diện hơn với màn hình sáng rõ nét, pin khủng kèm dung lượng lưu trữ cao.</div>
+    </div>
+
+    <!-- C3 -->
+    <div class="cmp-block" id="c3">
+      <div class="cmp-vs">
+        <div class="col us"><h3>Redmi Note 17 Pro 5G</h3></div>
+        <div class="col"><h3>Oppx A6 Pro 5G</h3></div>
+      </div>
+      <table class="cmp-table">
+        <tr><th>Thuộc tính</th><th>Note 17 Pro 5G</th><th>Oppx A6 Pro 5G</th></tr>
+        <tr><td class="attr">Màn hình</td><td class="win">6.83" 120Hz 1.5K POLED 3500nits, Glass Victus 2</td><td>6.57" 120Hz FHD+ 1400nits, AGC DT-Star D+</td></tr>
+        <tr><td class="attr">Camera sau</td><td>[Chính] 50MP – [Siêu rộng] 8MP</td><td>[Macro] 50MP – 2MP</td></tr>
+        <tr><td class="attr">Camera trước</td><td>16MP</td><td>16MP</td></tr>
+        <tr><td class="attr">Vi xử lý</td><td class="win">Snapdragon 6s Gen 4 (~810k điểm Antutu)</td><td>MediaTek Dimensity 6300 (~520k điểm Antutu)</td></tr>
+        <tr><td class="attr">Bộ nhớ</td><td>6+128/256GB, 8+256GB</td><td>8/12+256GB</td></tr>
+        <tr><td class="attr">Pin – Sạc</td><td>8340mAh, sạc nhanh 67W, sạc ngược có dây 22.5W</td><td class="win">6500mAh, sạc nhanh 80W</td></tr>
+        <tr><td class="attr">Kháng bụi/nước</td><td class="win">IP66, IP68, IP69, IP69K</td><td>IP66, IP68, IP69</td></tr>
+      </table>
+      <div class="verdict">Chốt nhanh: Note 17 Pro 5G là lựa chọn toàn diện với màn hình sáng và rõ nét, hiệu năng cao kèm dung lượng pin khủng, an tâm sử dụng lâu dài.</div>
+    </div>
+
+    <!-- C4 -->
+    <div class="cmp-block" id="c4">
+      <div class="cmp-vs">
+        <div class="col us"><h3>Redmi Note 17 Pro 5G</h3></div>
+        <div class="col"><h3>Samsxxx A37 5G</h3></div>
+      </div>
+      <table class="cmp-table">
+        <tr><th>Thuộc tính</th><th>Note 17 Pro 5G</th><th>Samsxxx A37 5G</th></tr>
+        <tr><td class="attr">Màn hình</td><td class="win">6.83" 120Hz 1.5K POLED 3500nits, Glass Victus 2</td><td>6.7" 120Hz Super AMOLED FHD+ 1900nits, Glass Victus+</td></tr>
+        <tr><td class="attr">Camera sau</td><td>[Chính] 50MP – [Siêu rộng] 8MP</td><td>[Macro] 50MP – [Siêu rộng] 5MP</td></tr>
+        <tr><td class="attr">Camera trước</td><td class="win">16MP</td><td>12MP</td></tr>
+        <tr><td class="attr">Vi xử lý</td><td>Snapdragon 6s Gen 4 (~810k điểm Antutu)</td><td class="win">Exynos 1480 (~1 triệu điểm Antutu)</td></tr>
+        <tr><td class="attr">Bộ nhớ</td><td>6+128/256GB, 8+256GB</td><td>8+128/256GB</td></tr>
+        <tr><td class="attr">Pin – Sạc</td><td class="win">8340mAh, sạc nhanh 67W, sạc ngược 22.5W</td><td>5000mAh, sạc nhanh 45W</td></tr>
+        <tr><td class="attr">Kháng bụi/nước</td><td class="win">IP66, IP68, IP69, IP69K</td><td>IP68</td></tr>
+      </table>
+      <div class="verdict">Chốt nhanh: Note 17 Pro 5G nổi trội với màn hình sáng rõ nét, pin khủng kèm sạc nhanh, an tâm sử dụng lâu dài.</div>
+    </div>
+
+    <!-- C5 -->
+    <div class="cmp-block" id="c5">
+      <div class="cmp-vs">
+        <div class="col us"><h3>Redmi Note 17 5G</h3></div>
+        <div class="col"><h3>Samsxxx A27 5G</h3></div>
+      </div>
+      <table class="cmp-table">
+        <tr><th>Thuộc tính</th><th>Note 17 5G</th><th>Samsxxx A27 5G</th></tr>
+        <tr><td class="attr">Màn hình</td><td class="win">6.99" 120Hz FHD+ AMOLED 1800nits, Gorilla Glass 7i</td><td>6.7" 120Hz Super AMOLED FHD+ 800nits, Glass Victus+</td></tr>
+        <tr><td class="attr">Camera sau</td><td>[Chính] 50MP, ống kính phụ</td><td>[Macro] 50MP, 2MP</td></tr>
+        <tr><td class="attr">Camera trước</td><td class="win">16MP</td><td>12MP</td></tr>
+        <tr><td class="attr">Vi xử lý</td><td>Snapdragon 4 Gen 4 (~600k điểm Antutu)</td><td class="win">Snapdragon 6 Gen 3 (~840k điểm Antutu)</td></tr>
+        <tr><td class="attr">Bộ nhớ</td><td>6+128/256GB, 8+256GB</td><td>6/8+256GB</td></tr>
+        <tr><td class="attr">Pin – Sạc</td><td class="win">7700mAh, sạc nhanh 45W, sạc ngược có dây 22.5W</td><td>5000mAh, sạc nhanh 25W</td></tr>
+        <tr><td class="attr">Kháng bụi/nước</td><td class="win">IP65</td><td>IP64</td></tr>
+      </table>
+      <div class="verdict">Chốt nhanh: Note 17 5G mang đến trải nghiệm toàn diện với màn hình sáng và rõ nét, hiệu năng cao kèm dung lượng pin khủng.</div>
+    </div>
+
+    <!-- C6 -->
+    <div class="cmp-block" id="c6">
+      <div class="cmp-vs">
+        <div class="col us"><h3>Redmi Note 17</h3></div>
+        <div class="col"><h3>Oppx A6</h3></div>
+      </div>
+      <table class="cmp-table">
+        <tr><th>Thuộc tính</th><th>Note 17</th><th>Oppx A6</th></tr>
+        <tr><td class="attr">Màn hình</td><td class="win">6.99" 120Hz FHD+ AMOLED 1800nits, Gorilla Glass 7i</td><td>6.75" 120Hz HD+ LCD 1125nits, kính phẳng</td></tr>
+        <tr><td class="attr">Camera sau</td><td class="win">[Chính] 50MP, ống kính phụ</td><td>[Phụ] 2MP</td></tr>
+        <tr><td class="attr">Camera trước</td><td class="win">16MP</td><td>8MP</td></tr>
+        <tr><td class="attr">Vi xử lý</td><td class="win">Snapdragon 6s 4G Gen 2 (~530k điểm Antutu)</td><td>Snapdragon 685 (~460k điểm Antutu)</td></tr>
+        <tr><td class="attr">Bộ nhớ</td><td>4+128GB, 6+128/256GB</td><td>8+128GB</td></tr>
+        <tr><td class="attr">Pin – Sạc</td><td>7700mAh, sạc nhanh 45W, sạc ngược 22.5W</td><td>7000mAh, sạc nhanh 45W</td></tr>
+        <tr><td class="attr">Kháng bụi/nước</td><td>IP65</td><td class="win">IP66, IP68, IP69</td></tr>
+      </table>
+      <div class="verdict">Chốt nhanh: Note 17 là lựa chọn toàn diện với màn hình sáng và rõ nét, hiệu năng cao kèm lượng pin khủng.</div>
+    </div>
+
+    <!-- C7 -->
+    <div class="cmp-block" id="c7">
+      <div class="cmp-vs">
+        <div class="col us"><h3>Redmi Note 17</h3></div>
+        <div class="col"><h3>Samsxxx A17 4G</h3></div>
+      </div>
+      <table class="cmp-table">
+        <tr><th>Thuộc tính</th><th>Note 17</th><th>Samsxxx A17 4G</th></tr>
+        <tr><td class="attr">Màn hình</td><td class="win">6.99" 120Hz FHD+ AMOLED 1800nits, Gorilla Glass 7i</td><td>6.7" 90Hz Super AMOLED 800nits, Gorilla Glass 7</td></tr>
+        <tr><td class="attr">Camera sau</td><td>[Chính] 50MP, ống kính phụ</td><td>[Macro] 50MP, 2MP, [Siêu rộng] 5MP</td></tr>
+        <tr><td class="attr">Camera trước</td><td class="win">16MP</td><td>13MP</td></tr>
+        <tr><td class="attr">Vi xử lý</td><td class="win">Snapdragon 6s 4G Gen 2 (~530k điểm Antutu)</td><td>MediaTek Helio G99 (~450k điểm Antutu)</td></tr>
+        <tr><td class="attr">Bộ nhớ</td><td>4+128GB, 6+128/256GB</td><td>4+128GB, 8+128/256GB</td></tr>
+        <tr><td class="attr">Pin – Sạc</td><td class="win">7700mAh, sạc nhanh 45W, sạc ngược 22.5W</td><td>7000mAh, sạc nhanh 25W</td></tr>
+        <tr><td class="attr">Kháng bụi/nước</td><td class="win">IP65</td><td>IP54</td></tr>
+      </table>
+      <div class="verdict">Chốt nhanh: Note 17 mang đến cho khách những trải nghiệm toàn diện, pin khủng, sạc nhanh và tấm nền màn hình đẹp hơn.</div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  // Tab switching
+  document.querySelectorAll('.tab-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+      document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(btn.dataset.tab).classList.add('active');
+      window.scrollTo({top:0,behavior:'smooth'});
+    });
+  });
+
+  // Series switch (Pro / Standard) in tab 1
+  function setSeries(s){
+    document.querySelectorAll('.series-switch button').forEach(b=>b.classList.remove('active'));
+    document.querySelector('.series-switch .'+s).classList.add('active');
+    document.querySelectorAll('.series-block').forEach(b=>b.classList.remove('active'));
+    document.querySelector('.series-block.'+s+'-block').classList.add('active');
+  }
+
+  // Comparison picker
+  document.querySelectorAll('.cmp-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('.cmp-btn').forEach(b=>b.classList.remove('active'));
+      document.querySelectorAll('.cmp-block').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(btn.dataset.cmp).classList.add('active');
+    });
+  });
+</script>
+
+</body>
+</html>
